@@ -1,9 +1,23 @@
+import logging
 import redis
 from app.core.config import settings
 
-# Initialize Redis client with string decoding enabled
-redis_client = redis.from_url(settings.REDIS_URL, decode_responses=True)
+logger = logging.getLogger(__name__)
 
-# Helper function to get Redis instance
+try:
+    redis_client = redis.from_url(
+        settings.REDIS_URL,
+        decode_responses=True
+    )
+
+    # Test Redis connection immediately
+    redis_client.ping()
+    logger.info("✅ Redis connected successfully")
+
+except Exception as e:
+    logger.exception("❌ Redis connection failed")
+    raise
+
+
 def get_redis():
     return redis_client
