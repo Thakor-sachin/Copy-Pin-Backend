@@ -2,7 +2,7 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# Prevent python from writing pyc files and buffer output
+# Prevent Python from writing pyc files and buffer output
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
@@ -21,3 +21,6 @@ COPY . .
 
 # Expose FastAPI's default port
 EXPOSE 8000
+
+# Start the FastAPI application
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
