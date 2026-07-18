@@ -1,0 +1,82 @@
+Folder PATH listing
+Volume serial number is 000000C3 5249:8BB8
+C:.
+¦   .env
+¦   .gitignore
+¦   .gitignoretype
+¦   Dockerfile
+¦   project_structure.txt
+¦   requirements.txt
+¦   
++---app
+    ¦   main.py
+    ¦   __init__.py
+    ¦   
+    +---api
+    ¦   ¦   router.py
+    ¦   ¦   __init__.py
+    ¦   ¦   
+    ¦   +---endpoints
+    ¦   ¦   ¦   health.py
+    ¦   ¦   ¦   shares.py
+    ¦   ¦   ¦   __init__.py
+    ¦   ¦   ¦   
+    ¦   ¦   +---__pycache__
+    ¦   ¦           health.cpython-313.pyc
+    ¦   ¦           shares.cpython-313.pyc
+    ¦   ¦           __init__.cpython-313.pyc
+    ¦   ¦           
+    ¦   +---__pycache__
+    ¦           router.cpython-313.pyc
+    ¦           __init__.cpython-313.pyc
+    ¦           
+    +---core
+    ¦   ¦   config.py
+    ¦   ¦   database.py
+    ¦   ¦   redis.py
+    ¦   ¦   __init__.py
+    ¦   ¦   
+    ¦   +---__pycache__
+    ¦           config.cpython-313.pyc
+    ¦           database.cpython-313.pyc
+    ¦           redis.cpython-313.pyc
+    ¦           __init__.cpython-313.pyc
+    ¦           
+    +---models
+    ¦   ¦   share.py
+    ¦   ¦   __init__.py
+    ¦   ¦   
+    ¦   +---__pycache__
+    ¦           share.cpython-313.pyc
+    ¦           __init__.cpython-313.pyc
+    ¦           
+    +---schemas
+    ¦   ¦   share.py
+    ¦   ¦   __init__.py
+    ¦   ¦   
+    ¦   +---__pycache__
+    ¦           share.cpython-313.pyc
+    ¦           __init__.cpython-313.pyc
+    ¦           
+    +---services
+    ¦   ¦   share_service.py
+    ¦   ¦   __init__.py
+    ¦   ¦   
+    ¦   +---__pycache__
+    ¦           share_service.cpython-313.pyc
+    ¦           __init__.cpython-313.pyc
+    ¦           
+    +---utils
+    ¦       __init__.py
+    ¦       
+    +---workers
+    ¦   ¦   celery_app.py
+    ¦   ¦   __init__.py
+    ¦   ¦   
+    ¦   +---__pycache__
+    ¦           celery_app.cpython-313.pyc
+    ¦           
+    +---__pycache__
+            main.cpython-313.pyc
+            __init__.cpython-313.pyc
+            
