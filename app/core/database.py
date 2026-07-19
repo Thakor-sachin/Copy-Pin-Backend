@@ -3,6 +3,9 @@ from sqlalchemy.orm import declarative_base, sessionmaker
 from app.core.config import settings
 
 DATABASE_URL = settings.DATABASE_URL
+if DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+
 engine = None
 
 # Attempt to connect to PostgreSQL with a brief timeout

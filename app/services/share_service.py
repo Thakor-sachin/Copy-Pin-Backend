@@ -17,7 +17,7 @@ def generate_unique_pin(db: Session) -> str:
         pin = "".join(random.choices(string.digits, k=4))
         
         # Check if active share with this PIN already exists
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
         exists = db.query(Share).filter(Share.pin == pin, Share.expires_at > now).first()
         if not exists:
             return pin
@@ -30,7 +30,7 @@ def create_text_share(db: Session, content: str) -> Share:
     Stores a text share and returns the created Share entity with its PIN.
     """
     pin = generate_unique_pin(db)
-    now = datetime.utcnow()
+    now = datetime.now(timezone.utc)
     expires_at = now + timedelta(hours=24)  # Default 24 hours expiry
     
     db_share = Share(
@@ -51,7 +51,7 @@ def create_file_share(db: Session, file: UploadFile) -> Share:
     Saves an uploaded file locally and registers it in the DB.
     """
     pin = generate_unique_pin(db)
-    now = datetime.utcnow()
+    now = datetime.now(timezone.utc)
     expires_at = now + timedelta(hours=24)
     
     # Secure disk storage path
@@ -127,7 +127,7 @@ def cleanup_expired_shares_job(db: Session) -> int:
     """
     Finds and deletes all expired shares.
     """
-    now = datetime.utcnow()
+    now = datetime.now(timezone.utc)
     expired_shares = db.query(Share).filter(Share.expires_at <= now).all()
     count = len(expired_shares)
     

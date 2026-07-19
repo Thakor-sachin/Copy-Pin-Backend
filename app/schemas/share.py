@@ -1,9 +1,9 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, AliasChoices
 from datetime import datetime
 from typing import Optional
 
 class TextShareCreate(BaseModel):
-    content: str = Field(..., description="Text content to be shared")
+    content: str = Field(..., validation_alias=AliasChoices('content', 'text'), description="Text content to be shared")
 
 class ShareResponse(BaseModel):
     pin: str = Field(..., min_length=4, max_length=10)

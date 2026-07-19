@@ -9,15 +9,15 @@ try:
         settings.REDIS_URL,
         decode_responses=True
     )
-
-    # Test Redis connection immediately
-    redis_client.ping()
-    logger.info("✅ Redis connected successfully")
-
 except Exception as e:
-    logger.exception("❌ Redis connection failed")
-    raise
+    logger.warning(f"⚠️ Initial Redis client setup warning: {e}")
+    redis_client = None
 
 
 def get_redis():
+    if redis_client is not None:
+        try:
+            redis_client.ping()
+        except Exception as e:
+            logger.error(f"Redis ping failed: {e}")
     return redis_client

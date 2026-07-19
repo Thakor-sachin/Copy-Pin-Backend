@@ -1,8 +1,23 @@
 import os
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 from app.api.router import api_router
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Ensure tables exist in database
+    from app.core.database import Base, engine
+    from app.models.share import Share
+    Base.metadata.create_all(bind=engine)
+    print("Database tables initialized.")
+
+    # Verify local uploads directory exists
+    if not os.path.exists(settings.UPLOAD_DIR):
+        os.makedirs(settings.UPLOAD_DIR, exist_ok=True)
+        print(f"Created local uploads directory at {settings.UPLOAD_DIR}")
+    yield
 
 app = FastAPI(
     title=settings.APP_NAME,
@@ -10,7 +25,8 @@ app = FastAPI(
     version="1.0.0",
     docs_url="/docs",
     redoc_url="/redoc",
-    openapi_url="/openapi.json"
+    openapi_url="/openapi.json",
+    lifespan=lifespan
 )
 
 # Apply CORS configurations
@@ -25,19 +41,6 @@ if settings.BACKEND_CORS_ORIGINS:
 
 # Include api_router (includes health checks and future API endpoints)
 app.include_router(api_router, prefix="/api")
-
-@app.on_event("startup")
-def startup_event():
-    # Ensure tables exist in database
-    from app.core.database import Base, engine
-    from app.models.share import Share
-    Base.metadata.create_all(bind=engine)
-    print("Database tables initialized.")
-
-    # Verify local uploads directory exists
-    if not os.path.exists(settings.UPLOAD_DIR):
-        os.makedirs(settings.UPLOAD_DIR, exist_ok=True)
-        print(f"Created local uploads directory at {settings.UPLOAD_DIR}")
 
 @app.get("/", tags=["Root"])
 def root_endpoint():

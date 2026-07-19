@@ -18,7 +18,13 @@ def share_text(payload: TextShareCreate, db: Session = Depends(get_db)):
             status_code=status.HTTP_400_BAD_REQUEST, 
             detail="Content cannot be empty"
         )
-    return share_service.create_text_share(db, payload.content)
+    try:
+        return share_service.create_text_share(db, payload.content)
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to share text: {str(e)}"
+        )
 
 @router.post("/file", response_model=ShareResponse, status_code=status.HTTP_201_CREATED)
 def share_file(file: UploadFile = File(...), db: Session = Depends(get_db)):

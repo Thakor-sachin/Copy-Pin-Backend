@@ -18,10 +18,12 @@ class Share(Base):
     file_size = Column(Integer, nullable=True)
     
     # Timestamps
-    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
     expires_at = Column(DateTime, nullable=False)
 
     def is_expired(self) -> bool:
         # Check if the share is expired relative to current UTC time
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
+        if self.expires_at and self.expires_at.tzinfo is None:
+            return now.replace(tzinfo=None) > self.expires_at
         return now > self.expires_at
