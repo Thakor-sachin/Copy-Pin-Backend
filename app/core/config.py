@@ -1,6 +1,6 @@
 import os
 import json
-from typing import List, Union
+from typing import List
 from pydantic import field_validator
 from pydantic_settings import BaseSettings
 
@@ -16,6 +16,9 @@ class Settings(BaseSettings):
         "http://127.0.0.1",
         "http://127.0.0.1:5173",
         "http://127.0.0.1:80",
+
+        # Vercel Production Frontend
+        "https://copy-pin-frontend.vercel.app",
     ]
 
     @field_validator("BACKEND_CORS_ORIGINS", mode="before")
